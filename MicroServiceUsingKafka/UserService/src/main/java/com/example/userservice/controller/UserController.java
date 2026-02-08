@@ -37,6 +37,23 @@ public class UserController {
         return toResponse(u);
     }
 
+    /**
+     * 🔥 ENDPOINT FOR HTTP TESTING - Tạo user KHÔNG gửi Kafka event
+     * Dùng endpoint này khi chưa start Kafka hoặc chỉ muốn test HTTP communication
+     */
+    @PostMapping("/no-kafka")
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserResponse createUserWithoutKafka(@RequestBody CreateUserRequest req) {
+        User user = new User();
+        user.setName(req.getName());
+        user.setEmail(req.getEmail());
+        user.setStatus("Active");
+        user.setCreatedAt(java.time.Instant.now());
+        user.setUpdatedAt(java.time.Instant.now());
+        User saved = userRepository.save(user);
+        return toResponse(saved);
+    }
+
     private UserResponse toResponse(User u) {
         return UserResponse.builder()
                 .id(u.getId())

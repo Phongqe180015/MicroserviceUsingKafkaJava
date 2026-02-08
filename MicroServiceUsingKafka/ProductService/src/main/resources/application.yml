@@ -23,3 +23,5 @@ spring:
 app:
   kafka:
     topic: user.events
+  user-service:
+    url: http://localhost:8081
